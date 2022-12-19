@@ -59,6 +59,7 @@ export async function create_new_project(project_name) {
                                                     "version VARCHAR(30) NOT NULL,"+
                                                     "manditory_optional VARCHAR(30) NOT NULL,"+
                                                     "fld_lvl INTEGER NOT NULL,"+
+                                                    "fld_type VARCHAR(10) NOT NULL,"+
                                                     "fld_name VARCHAR(50) NOT NULL,"+
                                                     "fld_descr VARCHAR(2000) NOT NULL,"+
                                                     "PRIMARY KEY (sl_no, op_name, version),"+
@@ -74,6 +75,7 @@ export async function create_new_project(project_name) {
                                                     "version VARCHAR(30) NOT NULL,"+
                                                     "manditory_optional VARCHAR(30) NOT NULL,"+
                                                     "fld_lvl INTEGER NOT NULL,"+
+                                                    "fld_type VARCHAR(10) NOT NULL,"+
                                                     "fld_name VARCHAR(50) NOT NULL,"+
                                                     "fld_descr VARCHAR(2000) NOT NULL,"+
                                                     "PRIMARY KEY (sl_no, op_name, version),"+
@@ -180,17 +182,17 @@ export async function create_new_op(project_name, req_json) {
             
         // op_input_flds_t
         for (let i = 0; i < op_input_info.length; i++) {
-            const {sl_no, manditory_optional, fld_lvl, fld_name, fld_descr} = op_input_info[i]
-            const op_input_flds_t__query = "insert into "+project_name+"_op_input_flds_t (sl_no, op_name, version, manditory_optional, fld_lvl, fld_name, fld_descr) values (?,?,?,?,?,?,?)"
-            const op_input_flds_t__query_results = await connection.query(op_input_flds_t__query, [sl_no, op_name, op_version, manditory_optional, fld_lvl, fld_name, fld_descr])
+            const {sl_no, manditory_optional, fld_lvl, fld_type, fld_name, fld_descr} = op_input_info[i]
+            const op_input_flds_t__query = "insert into "+project_name+"_op_input_flds_t (sl_no, op_name, version, manditory_optional, fld_lvl, fld_type, fld_name, fld_descr) values (?,?,?,?,?,?,?,?)"
+            const op_input_flds_t__query_results = await connection.query(op_input_flds_t__query, [sl_no, op_name, op_version, manditory_optional, fld_lvl, fld_type, fld_name, fld_descr])
             console.log("op_input_flds_t__query_results:", op_input_flds_t__query_results)
         }
 
         // op_output_flds_t
         for (let i = 0; i < op_output_info.length; i++) {
-            const {sl_no, manditory_optional, fld_lvl, fld_name, fld_descr} = op_output_info[i]
-            const op_output_flds_t__query = "insert into "+project_name+"_op_output_flds_t (sl_no, op_name, version, manditory_optional, fld_lvl, fld_name, fld_descr) values (?,?,?,?,?,?,?)"
-            const op_output_flds_t__query_results = await connection.query(op_output_flds_t__query, [sl_no, op_name, op_version, manditory_optional, fld_lvl, fld_name, fld_descr])
+            const {sl_no, manditory_optional, fld_lvl, fld_type, fld_name, fld_descr} = op_output_info[i]
+            const op_output_flds_t__query = "insert into "+project_name+"_op_output_flds_t (sl_no, op_name, version, manditory_optional, fld_lvl, fld_type, fld_name, fld_descr) values (?,?,?,?,?,?,?,?)"
+            const op_output_flds_t__query_results = await connection.query(op_output_flds_t__query, [sl_no, op_name, op_version, manditory_optional, fld_lvl, fld_type, fld_name, fld_descr])
             console.log("op_output_flds_t__query_results:", op_output_flds_t__query_results)
         }
 
@@ -260,17 +262,17 @@ export async function create_new_version_op(project_name, req_json) {
             
         // op_input_flds_t
         for (let i = 0; i < op_input_info.length; i++) {
-            const {sl_no, manditory_optional, fld_lvl, fld_name, fld_descr} = op_input_info[i]
-            const op_input_flds_t__query = "insert into "+project_name+"_op_input_flds_t (sl_no, op_name, version, manditory_optional, fld_lvl, fld_name, fld_descr) values (?,?,?,?,?,?,?)"
-            const op_input_flds_t__query_results = await connection.query(op_input_flds_t__query, [sl_no, op_name, op_version, manditory_optional, fld_lvl, fld_name, fld_descr])
+            const {sl_no, manditory_optional, fld_lvl, fld_type, fld_name, fld_descr} = op_input_info[i]
+            const op_input_flds_t__query = "insert into "+project_name+"_op_input_flds_t (sl_no, op_name, version, manditory_optional, fld_lvl, fld_type, fld_name, fld_descr) values (?,?,?,?,?,?,?,?)"
+            const op_input_flds_t__query_results = await connection.query(op_input_flds_t__query, [sl_no, op_name, op_version, manditory_optional, fld_lvl, fld_type, fld_name, fld_descr])
             console.log("op_input_flds_t__query_results:", op_input_flds_t__query_results)
         }
 
         // op_output_flds_t
         for (let i = 0; i < op_output_info.length; i++) {
-            const {sl_no, manditory_optional, fld_lvl, fld_name, fld_descr} = op_output_info[i]
-            const op_output_flds_t__query = "insert into "+project_name+"_op_output_flds_t (sl_no, op_name, version, manditory_optional, fld_lvl, fld_name, fld_descr) values (?,?,?,?,?,?,?)"
-            const op_output_flds_t__query_results = await connection.query(op_output_flds_t__query, [sl_no, op_name, op_version, manditory_optional, fld_lvl, fld_name, fld_descr])
+            const {sl_no, manditory_optional, fld_lvl, fld_type, fld_name, fld_descr} = op_output_info[i]
+            const op_output_flds_t__query = "insert into "+project_name+"_op_output_flds_t (sl_no, op_name, version, manditory_optional, fld_lvl, fld_type, fld_name, fld_descr) values (?,?,?,?,?,?,?,?)"
+            const op_output_flds_t__query_results = await connection.query(op_output_flds_t__query, [sl_no, op_name, op_version, manditory_optional, fld_lvl, fld_type, fld_name, fld_descr])
             console.log("op_output_flds_t__query_results:", op_output_flds_t__query_results)
         }
 

@@ -107,8 +107,8 @@ export async function get_op_info(project_name, op_name, version) {
         // op_input_info & op_output_info & op_version_comment_info
         if(version === 'latest') {
             res_version = latest_version
-            const input_query = "select opift.manditory_optional, opift.fld_lvl, opift.fld_name, opift.fld_descr from "+project_name+"_op_t opt, "+project_name+"_op_input_flds_t opift where opt.op_name = opift.op_name AND opt.latest_version = opift.version AND opt.op_name = ?"
-            const output_query = "select opift.manditory_optional, opift.fld_lvl, opift.fld_name, opift.fld_descr from "+project_name+"_op_t opt, "+project_name+"_op_output_flds_t opift where opt.op_name = opift.op_name AND opt.latest_version = opift.version AND opt.op_name = ?"
+            const input_query = "select opift.manditory_optional, opift.fld_lvl, opift.fld_type, opift.fld_name, opift.fld_descr from "+project_name+"_op_t opt, "+project_name+"_op_input_flds_t opift where opt.op_name = opift.op_name AND opt.latest_version = opift.version AND opt.op_name = ?"
+            const output_query = "select opift.manditory_optional, opift.fld_lvl, opift.fld_type, opift.fld_name, opift.fld_descr from "+project_name+"_op_t opt, "+project_name+"_op_output_flds_t opift where opt.op_name = opift.op_name AND opt.latest_version = opift.version AND opt.op_name = ?"
             const comment_query = "select opvt.comments from "+project_name+"_op_t opt, "+project_name+"_op_versions_t opvt where opt.op_name = opvt.op_name AND opt.latest_version = opvt.version AND opt.op_name = ?"
             console.log(" -> ", input_query)
             console.log(" -> ", output_query)
@@ -132,8 +132,8 @@ export async function get_op_info(project_name, op_name, version) {
             }
 
             res_version = version
-            const input_query = "select manditory_optional, fld_lvl, fld_name, fld_name, fld_descr from "+project_name+"_op_input_flds_t where op_name = ? AND version = ?"
-            const output_query = "select manditory_optional, fld_lvl, fld_name, fld_name, fld_descr from "+project_name+"_op_output_flds_t where op_name = ? AND version = ?"
+            const input_query = "select manditory_optional, fld_lvl, fld_type, fld_name, fld_descr from "+project_name+"_op_input_flds_t where op_name = ? AND version = ?"
+            const output_query = "select manditory_optional, fld_lvl, fld_type, fld_name, fld_descr from "+project_name+"_op_output_flds_t where op_name = ? AND version = ?"
             const comment_query = "select comments from "+project_name+"_op_versions_t where op_name = ? AND version = ?"
             console.log(" -> ", input_query)
             console.log(" -> ", output_query)
