@@ -28,7 +28,6 @@ export async function get_projects(req_header, req_body, req_params) {
         const [user_projects_query__results] = await pool.query(user_projects_query, [user_id])
         err_log_json(3, "user_projects_query__results:", user_projects_query__results)
         console.log ("user_projects_query__results:")
-        
         // building the results array
         user_projects_query__results.forEach(({project_name}) => {
             results.push(project_name)
