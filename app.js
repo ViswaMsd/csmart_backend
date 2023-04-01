@@ -23,9 +23,9 @@ app.use(cors())
 // failure status code : 404
 
 app.get("/", (req, res) => {
-    const error = test()
-    console.log(error)
-    res.send(error)
+    //const error = test()
+    //console.log(error)
+    res.send("success")
 }) 
 
 app.get("/get_projects", async (req, res) => {

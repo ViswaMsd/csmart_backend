@@ -125,7 +125,7 @@ export async function register_user(req_header, req_body, req_params) {
 //////////////////////////// login //////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 export async function login(req_header, req_body, req_params) {
-    const {user_id, password} = req_body
+    const {user_id, password} = req_header
     let has_error
     let response
     let jwt_token
