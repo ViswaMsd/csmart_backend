@@ -1,110 +1,215 @@
 import express from 'express'
-//import {get_projects, get_fm_ops_info, get_op_info, create_new_project, create_new_fm, create_new_op, create_new_version_op, delete_project, delete_fm, delete_op, delete_version_op, update_fm_name, update_op_name, update_op_info} from './database.js'
 
 
 import {get_projects, get_fm_ops_info, get_op_info} from './database copy/get_requests.js'
 import {create_new_project, create_new_fm, create_new_op, create_new_version_op} from './database copy/post_requests.js'
 import {delete_project, delete_fm, delete_op, delete_version_op} from './database copy/delete_requests.js'
 import {update_fm_name, update_op_name, update_op_info} from './database/update_requests.js'
+import { register_user, login } from './database copy/auth_requests.js'
+import {err_log_json, err_log_msg, pretty_json} from './utils.js'
+//import {test} from './test.js'
 
 const app = express()
 app.use(express.json())
 
-// -------------------------- GET -------------------------- //
+
+
+///////////////////////////////////////////////////////////////
+///////////////////////////// GET /////////////////////////////
+///////////////////////////////////////////////////////////////
 // success status code : 200
 // failure status code : 404
 
 app.get("/", (req, res) => {
-    res.send("Successfully landed on the HomePage")
+    const error = test()
+    console.log(error)
+    res.send(error)
 }) 
 
 app.get("/get_projects", async (req, res) => {
-    const response = await get_projects()
+
+    // parse the request
+    const req_header = req.headers
+    const req_body = req.body
+    const req_params = req.params
+
+    // call the function
+    err_log_msg(3, "GET -> /get_projects")
+    err_log_json(3, "REQUEST -> HEADER", req_header)
+    err_log_json(3, "REQUEST -> BODY", req_body)
+    err_log_json(3, "REQUEST -> PARAMS", req_params)
+    const response = await get_projects(req_header, req_body, req_params)
+
+    // send the response back
     if (response.error_code === 0) {
+        err_log_json(3, "GET -> /get_projects -> RESPONSE:", response)
         res.status(201).send(response)
     }
     else {
+        err_log_json(1, "GET -> /get_projects -> RESPONSE:", response)
         res.status(404).send(response)
     }
 })
 
 app.get("/get_fm_ops_info/:project_name", async (req, res) => {
-    const project_name = req.params.project_name
-    const response = await get_fm_ops_info(project_name)
+
+    // parse the request
+    const req_header = req.headers
+    const req_body = req.body
+    const req_params = req.params
+
+    // call the function
+    err_log_msg(3, "GET -> /get_fm_ops_info")
+    err_log_json(3, "REQUEST -> HEADER", req_header)
+    err_log_json(3, "REQUEST -> BODY", req_body)
+    err_log_json(3, "REQUEST -> PARAMS", req_params) 
+    const response = await get_fm_ops_info(req_header, req_body, req_params)
+
+    // send the response back
     if (response.error_code === 0) {
+        err_log_json(3, "GET -> /get_fm_ops_info -> RESPONSE:", response)
         res.status(201).send(response)
     }
     else {
+        err_log_json(1, "GET -> /get_fm_ops_info -> RESPONSE:", response)
         res.status(404).send(response)
     }
 })
 
 app.get("/get_op_info/:project_name/:op_name/:version", async (req, res) => {
-    console.log(" -> GET: /get_op_info/:project_name/:op_name/?version")    
-    const project_name = req.params.project_name
-    const op_name = req.params.op_name
-    const version = req.params.version
-    const response = await get_op_info(project_name, op_name, version)
-    if (response.error_code === 0) {
+
+    // parse the request
+    const req_header = req.headers
+    const req_body = req.body
+    const req_params = req.params
+    
+    // call the function
+    err_log_msg(3, "GET -> /get_op_info")
+    err_log_json(3, "REQUEST -> HEADER", req_header)
+    err_log_json(3, "REQUEST -> BODY", req_body)
+    err_log_json(3, "REQUEST -> PARAMS", req_params)    
+    const response = await get_op_info(req_header, req_body, req_params)
+
+    // send the response back
+    if (response.error_code === 0) { 
+        err_log_json(3, "GET -> /get_op_info -> RESPONSE:", response)       
         res.status(201).send(response)
     }
     else {
+        err_log_json(1, "GET -> /get_op_info -> RESPONSE:", response)
         res.status(404).send(response)
     }
 })
 
-// -------------------------- POST -------------------------- //
+////////////////////////////////////////////////////////////////
+///////////////////////////// POST /////////////////////////////
+////////////////////////////////////////////////////////////////
 // success status code : 200
 // failure status code : 404
 
 app.post("/create_new_project/:project_name", async (req, res) => {
-    const project_name = req.params.project_name
-    const response = await create_new_project(project_name)
+
+    // parse the request
+    const req_header = req.headers
+    const req_body = req.body
+    const req_params = req.params
+        
+    // call the function
+    err_log_msg(3, "POST -> /create_new_project")
+    err_log_json(3, "REQUEST -> HEADER", req_header)
+    err_log_json(3, "REQUEST -> BODY", req_body)
+    err_log_json(3, "REQUEST -> PARAMS", req_params) 
+    const response = await create_new_project(req_header, req_body, req_params)
+
+    // send the response back
     if (response.error_code === 0) {
+        err_log_json(3, "POST -> /create_new_project -> RESPONSE:", response)
         res.status(201).send(response)
     }
     else {
+        err_log_json(1, "POST -> /create_new_project -> RESPONSE:", response)
         res.status(404).send(response)
     }
 })
 
 app.post("/create_new_fm/:project_name/:fm_name", async (req, res) => {
-    const project_name = req.params.project_name
-    const fm_name = req.params.fm_name
-    const response = await create_new_fm(project_name, fm_name)
+
+    // parse the request
+    const req_header = req.headers
+    const req_body = req.body
+    const req_params = req.params
+
+    // call the function
+    err_log_msg(3, "POST -> /create_new_fm")
+    err_log_json(3, "REQUEST -> HEADER", req_header)
+    err_log_json(3, "REQUEST -> BODY", req_body)
+    err_log_json(3, "REQUEST -> PARAMS", req_params)
+    const response = await create_new_fm(req_header, req_body, req_params) 
+    
+    // send the response back
     if (response.error_code === 0) {
+        err_log_json(3, "POST -> /create_new_fm -> RESPONSE:", response)
         res.status(201).send(response)
     }
     else {
+        err_log_json(1, "POST -> /create_new_fm -> RESPONSE:", response)
         res.status(404).send(response)
     }
 })
 
 app.post("/create_new_op/:project_name/", async (req, res) => {
-    const project_name = req.params.project_name
-    const req_json = req.body
-    const response = await create_new_op(project_name, req_json)
+
+   // parse the request
+   const req_header = req.headers
+   const req_body = req.body
+   const req_params = req.params
+
+    // call the function
+    err_log_msg(3, "POST -> /create_new_op")
+    err_log_json(3, "REQUEST -> HEADER", req_header)
+    err_log_json(3, "REQUEST -> BODY", req_body)
+    err_log_json(3, "REQUEST -> PARAMS", req_params)
+    const response = await create_new_op(req_header, req_body, req_params)
+
+    // send the response back
     if (response.error_code === 0) {
+        err_log_json(3, "POST -> /create_new_op -> RESPONSE:", response)
         res.status(201).send(response)
     }
     else {
+        err_log_json(1, "POST -> /create_new_op -> RESPONSE:", response)
         res.status(404).send(response)
     }
 })
 
 app.post("/create_new_version_op/:project_name/", async (req, res) => {
-    const project_name = req.params.project_name
-    const req_json = req.body
-    const response = await create_new_version_op(project_name, req_json)
+
+    // parse the request
+    const req_header = req.headers
+    const req_body = req.body
+    const req_params = req.params
+
+    // call the function
+    err_log_msg(3, "POST -> /create_new_version_op")
+    err_log_json(3, "REQUEST -> HEADER", req_header)
+    err_log_json(3, "REQUEST -> BODY", req_body)
+    err_log_json(3, "REQUEST -> PARAMS", req_params)
+    const response = await create_new_op(req_header, req_body, req_params)
+
+    // send the response back
     if (response.error_code === 0) {
+        err_log_json(3, "POST -> /create_new_version_op -> RESPONSE:", response)
         res.status(201).send(response)
     }
     else {
+        err_log_json(1, "POST -> /create_new_version_op -> RESPONSE:", response)
         res.status(404).send(response)
-    }
+    } 
 })
 
-// -------------------------- DELETE -------------------------- //
+//////////////////////////////////////////////////////////////////
+//////////////////////////// DELETE //////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 app.delete("/delete_project/:project_name", async (req, res) => {
     const project_name = req.params.project_name
@@ -154,7 +259,9 @@ app.delete("/delete_version_op/:project_name/:op_name/:version", async (req, res
     }
 })
 
-// -------------------------- UPDATE -------------------------- //
+//////////////////////////////////////////////////////////////////
+///////////////////////////// UPDATE /////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 app.patch("/update_fm_name/:project_name/:old_fm_name/:new_fm_name", async (req, res) => {
     const project_name = req.params.project_name
@@ -206,6 +313,60 @@ app.patch("/update_op_descr/:project_name", async (req, res) => {
 })
 
 
+////////////////////////////////////////////////////////////////
+///////////////////////////// AUTH /////////////////////////////
+////////////////////////////////////////////////////////////////
+app.post("/register", async (req, res) => {
+
+   // parse the request
+   const req_header = req.headers
+   const req_body = req.body
+   const req_params = req.params
+
+    // call the function
+    err_log_msg(3, "POST -> /register")
+    err_log_json(3, "REQUEST -> HEADER", req_header)
+    err_log_json(3, "REQUEST -> BODY", req_body)
+    err_log_json(3, "REQUEST -> PARAMS", req_params)
+    const response = await register_user(req_header, req_body, req_params)
+
+    // send the response back
+    if (response.error_code === 0) {
+        err_log_json(3, "POST -> /register -> RESPONSE:", response)
+        res.status(201).send(response)
+    }
+    else {
+        err_log_json(1, "POST -> /register -> RESPONSE:", response)
+        res.status(404).send(response)
+    }        
+})
+
+
+
+app.get("/login", async (req, res) => {
+
+   // parse the request
+   const req_header = req.headers
+   const req_body = req.body
+   const req_params = req.params
+
+    // call the function
+    err_log_msg(3, "POST -> /login")
+    err_log_json(3, "REQUEST -> HEADER", req_header)
+    err_log_json(3, "REQUEST -> BODY", req_body)
+    err_log_json(3, "REQUEST -> PARAMS", req_params)    
+    const response = await login(req_header, req_body, req_params)
+
+    // send the response back
+    if (response.error_code === 0) {
+        err_log_json(3, "POST -> /login -> RESPONSE:", response)
+        res.status(201).send(response)
+    }
+    else {
+        err_log_json(1, "POST -> /login -> RESPONSE:", response)
+        res.status(404).send(response)
+    }               
+})
 
 
 
