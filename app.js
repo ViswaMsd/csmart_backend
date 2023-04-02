@@ -339,7 +339,7 @@ app.post("/register", async (req, res) => {
     }
     else {
         err_log_json(1, "POST -> /register -> RESPONSE:", response)
-        res.status(404).send(response)
+        res.status(401).send(response)
     }        
 })
 
@@ -366,7 +366,7 @@ app.get("/login", async (req, res) => {
     }
     else {
         err_log_json(1, "POST -> /login -> RESPONSE:", response)
-        res.status(404).send(response)
+        res.status(401).send(response)
     }               
 })
 
