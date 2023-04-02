@@ -157,7 +157,7 @@ export async function login(req_header, req_body, req_params) {
         // jsonwebtoken and return it in the response
         jwt_token = jwt.sign({user_id}, process.env.JWT_ENCRYPTION_KEY, {expiresIn: process.env.JWT_EXPIRES_IN})
 
-    } catch (error) {
+    } catch (err) {
         has_error = 1
         err_log_json(3, "error while login", err)
 
